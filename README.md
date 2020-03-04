@@ -8,12 +8,12 @@ didn't think would fit in core.
 
 ## Index
 
-...[integrant-tools.core/readers](#integrant-tools.corereaders)
-...[integrant-tools.core/derive-unknown](#integrant-tools.corederive-unknown)
-...[integrant-tools.core/derive-hierarchy!](#integrant-tools.corederive-hierarchy!)
-...[integrant-tools.core/meta-init](#integrant-tools.coremeta-init)
-...[integrant-tools.edn/meta-str](#integrant-tools.ednmeta-str)
-...[integrant-tools.edn/lazy-read](#integrant-tools.edn/lazy-read)
++ [integrant-tools.core/readers](#integrant-tools.corereaders)
++ [integrant-tools.core/derive-unknown](#integrant-tools.corederive-unknown)
++ [integrant-tools.core/derive-hierarchy!](#integrant-tools.corederive-hierarchy!)
++ [integrant-tools.core/meta-init](#integrant-tools.coremeta-init)
++ [integrant-tools.edn/meta-str](#integrant-tools.ednmeta-str)
++ [integrant-tools.edn/lazy-read](#integrant-tools.edn/lazy-read)
 
 ## integrant-tools.core/readers
 
