@@ -1,7 +1,8 @@
 (ns integrant-tools.core-test
   (:require [clojure.test :refer :all]
             [integrant-tools.core :as it]
-            [integrant.core :as ig]))
+            [integrant.core :as ig]
+            [clojure.edn :as edn]))
 
 (defmethod ig/init-key :entity/legolas [_ opts] opts)
 
@@ -58,6 +59,23 @@
    :entity/aragorn [:race/human]
    :entity/name [:it/const]
    :entity/age [:it/const]})
+
+(def it-str-reader-config
+  "{:lotr/quote #it/str [\"It's a dangerous business, \"
+                         \"walking out one's front door.\"]}")
+
+(def it-regex-reader-config
+  "{:lotr/quote #it/regex \"^Legolas$\" }")
+
+(deftest readers-test
+  (testing "Test #it/str"
+    (is (= {:lotr/quote "It's a dangerous business, walking out one's front door."}
+           (edn/read-string {:readers it/readers} it-str-reader-config))))
+
+  (testing "Test #it/regex"
+    (is (-> (edn/read-string {:readers it/readers} it-regex-reader-config)
+            (get :lotr/quote)
+            (re-matches "Legolas")))))
 
 (deftest derive-unknown-test
   (testing "Derive from const to always return opts"
