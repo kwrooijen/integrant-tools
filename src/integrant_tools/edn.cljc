@@ -28,7 +28,8 @@
     (reader-map? v) reader-map->tag))
 
 (defn meta-str
-  "TODO"
+  "Convert a lazily read EDN structure into a string, adding the meta data to
+  the string as well."
   [config]
   (binding [*print-meta* true]
     (->> config
@@ -36,7 +37,20 @@
          (pr-str))))
 
 (defn lazy-read
-  "TODO"
+  "Reads an EDN string, but doesn't evaluate any readers tags except the ones
+  supplied in `readers`. Instead of evaluating them they are converted to a map.
+  This is useful if you want read multiple config files, merge them, and write
+  them back to a string, without losing the reader tags.
+
+  For example:
+
+  (it.edn/lazy-read \"{:lotr/quote #it/str [...]}\")
+
+  Is read to:
+
+  {:lotr/quote {:reader/tag 'it/str :reader/value [...]}}
+
+  Which can then later be written to a string using `meta-str`."
   ([config]
    (lazy-read {} config))
   ([readers config]
