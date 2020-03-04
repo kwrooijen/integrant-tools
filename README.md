@@ -6,6 +6,15 @@ A library with helper functions, reader tags, and init-keys for
 [Integrant](https://github.com/weavejester/integrant). These are things which I
 didn't think would fit in core.
 
+## Index
+
+[integrant-tools.core/readers](#integrant-tools.core/readers)
+[integrant-tools.core/derive-unknown](#integrant-tools.core/derive-unknown)
+[integrant-tools.core/derive-hierarchy!](#integrant-tools.core/derive-hierarchy!)
+[integrant-tools.core/meta-init](#integrant-tools.core/meta-init)
+[integrant-tools.edn/meta-str](#integrant-tools.edn/meta-str)
+[integrant-tools.edn/lazy-read](#integrant-tools.edn/lazy-read)
+
 ## integrant-tools.core/readers
 
 
@@ -39,6 +48,7 @@ didn't think would fit in core.
 
 ## integrant-tools.core/derive-hierarchy!
 ([hierarchy])
+
   Derive keys using a hierarchy structure.
 
   For example:
@@ -59,17 +69,20 @@ didn't think would fit in core.
 
 ## integrant-tools.core/meta-init
 ([config] [config keys])
+
   Same as ig/init, but any metadata in a key's `opts` are merged into the
   resulting value after initialization. This is useful if your init-key returns
   a function, but you want to add extra context to it.
 
 ## integrant-tools.edn/meta-str
 ([config])
+
   Convert a lazily read EDN structure into a string, adding the meta data to
   the string as well.
 
 ## integrant-tools.edn/lazy-read
 ([config] [readers config])
+
   Reads an EDN string, but doesn't evaluate any readers tags except the ones
   supplied in `readers`. Instead of evaluating them they are converted to a map.
   This is useful if you want read multiple config files, merge them, and write
@@ -84,7 +97,6 @@ didn't think would fit in core.
   {:lotr/quote {:reader/tag 'it/str :reader/value [...]}}
 
   Which can then later be written to a string using `meta-str`.
-
 
 ## License
 
