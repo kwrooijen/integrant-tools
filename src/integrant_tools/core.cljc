@@ -26,16 +26,36 @@
       (vary-meta v merge (meta opts))
       v)))
 
-(def ^{:doc "TODO"}
+(def ^{:doc "Useful Integrant readers
+
+## `it/regex`
+  Convert a string to a regex
+
+```clojure
+{:regex/email? #ig/regex \".+\\@.+\\..+\"
+ ...}
+```
+
+## `it/str`
+  Convert a collection of strings into a single string
+
+```clojure
+{:lotr/quote #ig/str
+ [\"One ring to rule them all,\"
+  \"One ring to find them,\"
+  \"One ring to bring them all and in the darkness bind them\"]
+ ...}
+```"}
   readers
   {'it/regex re-pattern
-   'it/str (partial apply str)
-   'it/fn #(fn [] %)})
+   'it/str (partial apply str)})
 
 (defmethod ig/init-key :it/const [_ opts] opts)
 
 (defn derive-unknown
-  "TODO"
+  "Derives any keys in `config` that aren't implemented in `multi-method` with
+  `new-key`. Any keys that are derived using this function will be returned in
+  a vector."
   [config multi-method new-key]
   (->> config
        (keys)
@@ -43,14 +63,31 @@
        (reduce (partial derive-unknown* multi-method new-key) [])))
 
 (defn derive-hierarchy!
-  "TODO"
+  "Derive keys using a hierarchy structure.
+
+  For example:
+
+  ```clojure
+  (it/derive-hierarchy!
+   {:entity/thranduil [:race/elf]
+    :entity/legolas   [:race/elf]
+    :entity/aragorn   [:race/human]})
+
+  Is equivalent to calling:
+
+  (derive :entity/thranduil :race/elf)
+  (derive :entity/legolas   :race/elf)
+  (derive :entity/aragorn   :race/human)
+  ```"
   [hierarchy]
   (doseq [[tag parents] hierarchy
           parent parents]
     (derive tag parent)))
 
 (defn meta-init
-  "TODO"
+  "Same as ig/init, but any metadata in a key's `opts` are merged into the
+  resulting value after initialization. This is useful if your init-key returns
+  a function, but you want to add extra context to it."
   ([config]
    (meta-init config (keys config)))
   ([config keys]
