@@ -22,7 +22,7 @@ didn't think would fit in core.
   Convert a string to a regex
 
 ```clojure
-{:regex/email? #ig/regex ".+\@.+\..+"
+{:regex/email? #it/regex ".+\@.+\..+"
  ...}
 ```
 
@@ -30,7 +30,7 @@ didn't think would fit in core.
   Convert a collection of strings into a single string
 
 ```clojure
-{:lotr/quote #ig/str
+{:lotr/quote #it/str
  ["One ring to rule them all,"
   "One ring to find them,"
   "One ring to bring them all and in the darkness bind them"]
