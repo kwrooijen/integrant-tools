@@ -7,7 +7,7 @@
 (defn- tag->map [t v]
   {:reader/tag t :reader/value v})
 
-(defn format-string [string]
+(defn- format-string [string]
   (str "\"" string "\""))
 
 (defn- format-value [v]
