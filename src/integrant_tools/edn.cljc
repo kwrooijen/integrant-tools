@@ -44,11 +44,15 @@
 
   For example:
 
+  ```clojure
   (it.edn/lazy-read \"{:lotr/quote #it/str [...]}\")
+  ```
 
   Is read to:
 
+  ```clojuree
   {:lotr/quote {:reader/tag 'it/str :reader/value [...]}}
+  ```
 
   Which can then later be written to a string using `meta-str`."
   ([config]
