@@ -93,6 +93,12 @@
           parent (parents key)]
     (underive key parent)))
 
+(defn find-derived-keys
+  "Return all keys that in `config` that are derived from `k`."
+  [config k]
+  (->> (ig/find-derived config k)
+       (mapv first)))
+
 (defn meta-init
   "Same as ig/init, but any metadata in a key's `opts` are merged into the
   resulting value after initialization. This is useful if your init-key returns
