@@ -84,6 +84,15 @@
           parent parents]
     (derive tag parent)))
 
+(defn underive-all
+  "Underives all keys from `config` of their parents. This is useful if you've
+  manually used `derive` on keys within your config and need to remove them to
+  prevent ambiguous init-keys."
+  [config]
+  (doseq [key (-> config keys flatten distinct)
+          parent (parents key)]
+    (underive key parent)))
+
 (defn meta-init
   "Same as ig/init, but any metadata in a key's `opts` are merged into the
   resulting value after initialization. This is useful if your init-key returns
