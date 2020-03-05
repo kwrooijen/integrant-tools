@@ -12,8 +12,8 @@
 (defn- derive-unknown* [multi-method new-key acc ks]
   (if (some (partial implemented-method? multi-method) ks)
     acc
-    (do (derive (first ks) new-key)
-        (conj acc (first ks)))))
+    (do (derive (last ks) new-key)
+        (conj acc (last ks)))))
 
 (defn- meta-value?
   [v]
