@@ -11,6 +11,8 @@ didn't think would fit in core.
 + [integrant-tools.core/readers](#integrant-toolscorereaders)
 + [integrant-tools.core/derive-unknown](#integrant-toolscorederive-unknown)
 + [integrant-tools.core/derive-hierarchy!](#integrant-toolscorederive-hierarchy!)
++ [integrant-tools.core/underive-all](#integrant-toolscoreunderive-all)
++ [integrant-tools.core/find-derived-keys](#integrant-toolscorefind-derived-keys)
 + [integrant-tools.core/meta-init](#integrant-toolscoremeta-init)
 + [integrant-tools.edn/meta-str](#integrant-toolsednmeta-str)
 + [integrant-tools.edn/lazy-read](#integrant-toolsedn/lazy-read)
@@ -66,6 +68,17 @@ didn't think would fit in core.
   (derive :entity/aragorn   :race/human)
   ```
 
+## integrant-tools.core/underive-all
+([config])
+
+  Underives all keys from `config` of their parents. This is useful if you've
+  manually used `derive` on keys within your config and need to remove them to
+  prevent ambiguous init-keys.
+
+## integrant-tools.core/find-derived-keys
+([config k])
+
+  Return all keys that in `config` that are derived from `k`.
 
 ## integrant-tools.core/meta-init
 ([config] [config keys])
