@@ -62,13 +62,13 @@
        (map ->coll)
        (reduce (partial derive-unknown* multi-method new-key) [])))
 
-(defn derive-hierarchy!
+(defn derive-hierarchy
   "Derive keys using a hierarchy structure.
 
   For example:
 
   ```clojure
-  (it/derive-hierarchy!
+  (it/derive-hierarchy
    {:entity/thranduil [:race/elf]
     :entity/legolas   [:race/elf]
     :entity/aragorn   [:race/human]})
@@ -94,10 +94,29 @@
     (underive key parent)))
 
 (defn find-derived-keys
-  "Return all keys that in `config` that are derived from `k`."
+  "Return all keys in `config` that are derived from `k`."
   [config k]
   (->> (ig/find-derived config k)
        (mapv first)))
+
+(defn find-derived-key
+  "Return the first key in `config` that is derived from `k`."
+  [config k]
+  (->> (ig/find-derived config k)
+       (mapv first)))
+
+(defn find-derived-values
+  "Return all values of keys in `config` that are derived from `k`."
+  [config k]
+  (->> (ig/find-derived config k)
+       (mapv last)))
+
+(defn find-derived-value
+  "Return the value of the first key in `config` that is derived from `k`."
+  [config k]
+  (->> (ig/find-derived config k)
+       (first)
+       (last)))
 
 (defn meta-init
   "Same as ig/init, but any metadata in a key's `opts` are merged into the

@@ -37,10 +37,10 @@
          (pr-str))))
 
 (defn lazy-read
-  "Reads an EDN string, but doesn't evaluate any readers tags except the ones
-  supplied in `readers`. Instead of evaluating them they are converted to a map.
-  This is useful if you want read multiple config files, merge them, and write
-  them back to a string, without losing the reader tags.
+  "Reads the EDN string `s`, but doesn't evaluate any readers tags except the
+  ones supplied in `readers`. Instead of evaluating them they are converted to
+  a map. This is useful if you want read multiple config files, merge them, and
+  write them back to a string, without losing the reader tags.
 
   For example:
 
@@ -50,12 +50,12 @@
 
   Is read to:
 
-  ```clojuree
+  ```clojure
   {:lotr/quote {:reader/tag 'it/str :reader/value [...]}}
   ```
 
   Which can then later be written to a string using `meta-str`."
-  ([config]
-   (lazy-read {} config))
-  ([readers config]
-   (edn/read-string {:readers readers :default tag->map} config)))
+  ([s]
+   (lazy-read {} s))
+  ([readers s]
+   (edn/read-string {:readers readers :default tag->map} s)))

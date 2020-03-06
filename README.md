@@ -8,111 +8,35 @@ didn't think would fit in core.
 
 ## Index
 
-+ [integrant-tools.core/readers](#integrant-toolscorereaders)
-+ [integrant-tools.core/derive-unknown](#integrant-toolscorederive-unknown)
-+ [integrant-tools.core/derive-hierarchy!](#integrant-toolscorederive-hierarchy!)
-+ [integrant-tools.core/underive-all](#integrant-toolscoreunderive-all)
-+ [integrant-tools.core/find-derived-keys](#integrant-toolscorefind-derived-keys)
-+ [integrant-tools.core/meta-init](#integrant-toolscoremeta-init)
-+ [integrant-tools.edn/meta-str](#integrant-toolsednmeta-str)
-+ [integrant-tools.edn/lazy-read](#integrant-toolsedn/lazy-read)
+### Core
 
-## integrant-tools.core/readers
++ [integrant-tools.core/readers](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.core#readers)
++ [integrant-tools.core/derive-unknown](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.core#derive-unknown)
++ [integrant-tools.core/derive-hierarchy](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.core#derive-hierarchy)
++ [integrant-tools.core/underive-all](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.core#underive-all)
++ [integrant-tools.core/find-derived-keys](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.core#find-derived-keys)
++ [integrant-tools.core/meta-init](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.core#meta-init)
++ [integrant-tools.core/find-derived-key](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.core#find-derived-key)
++ [integrant-tools.core/find-derived-values](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.core#find-derived-values)
++ [integrant-tools.core/find-derived-value](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.core#find-derived-value)
 
+### EDN
 
-### `it/regex`
-  Convert a string to a regex
++ [integrant-tools.edn/meta-str](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.edn#meta-str)
++ [integrant-tools.edn/lazy-read](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.edn#lazy-read)
 
-```clojure
-{:regex/email? #it/regex ".+\@.+\..+"
- ...}
-```
+### Keyword
 
-### `it/str`
-  Convert a collection of strings into a single string
-
-```clojure
-{:lotr/quote #it/str
- ["One ring to rule them all,"
-  "One ring to find them,"
-  "One ring to bring them all and in the darkness bind them"]
- ...}
-```
-
-## integrant-tools.core/derive-unknown
-
-([config multi-method new-key])
-
-  Derives any keys in `config` that aren't implemented in `multi-method` with
-  `new-key`. Any keys that are derived using this function will be returned in
-  a vector.
-
-
-## integrant-tools.core/derive-hierarchy!
-([hierarchy])
-
-  Derive keys using a hierarchy structure.
-
-  For example:
-
-  ```clojure
-  (it/derive-hierarchy!
-   {:entity/thranduil [:race/elf]
-    :entity/legolas   [:race/elf]
-    :entity/aragorn   [:race/human]})
-
-  Is equivalent to calling:
-
-  (derive :entity/thranduil :race/elf)
-  (derive :entity/legolas   :race/elf)
-  (derive :entity/aragorn   :race/human)
-  ```
-
-## integrant-tools.core/underive-all
-([config])
-
-  Underives all keys from `config` of their parents. This is useful if you've
-  manually used `derive` on keys within your config and need to remove them to
-  prevent ambiguous init-keys.
-
-## integrant-tools.core/find-derived-keys
-([config k])
-
-  Return all keys that in `config` that are derived from `k`.
-
-## integrant-tools.core/meta-init
-([config] [config keys])
-
-  Same as ig/init, but any metadata in a key's `opts` are merged into the
-  resulting value after initialization. This is useful if your init-key returns
-  a function, but you want to add extra context to it.
-
-## integrant-tools.edn/meta-str
-([config])
-
-  Convert a lazily read EDN structure into a string, adding the meta data to
-  the string as well.
-
-## integrant-tools.edn/lazy-read
-([config] [readers config])
-
-  Reads an EDN string, but doesn't evaluate any readers tags except the ones
-  supplied in `readers`. Instead of evaluating them they are converted to a map.
-  This is useful if you want read multiple config files, merge them, and write
-  them back to a string, without losing the reader tags.
-
-  For example:
-
-  ```clojure
-  (it.edn/lazy-read "{:lotr/quote #it/str [...]}")
-  ```
-  Is read to:
-
-  ```clojure
-  {:lotr/quote {:reader/tag 'it/str :reader/value [...]}}
-  ```
-
-  Which can then later be written to a string using `meta-str`.
+* [integrant-tools.keyword/ancestor?](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#ancestor?)
+* [integrant-tools.keyword/descendant?](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#descendant?)
+* [integrant-tools.keyword/parent?](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#parent?)
+* [integrant-tools.keyword/child?](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#child?)
+* [integrant-tools.keyword/children](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#children)
+* [integrant-tools.keyword/underive-ancestors](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#underive-ancestors)
+* [integrant-tools.keyword/underive-parents](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#underive-parents)
+* [integrant-tools.keyword/underive-descendants](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#underive-descendants)
+* [integrant-tools.keyword/underive-children](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#underive-children)
+* [integrant-tools.keyword/make-child](https://cljdoc.org/d/integrant-tools/integrant-tools/0.3.0/api/integrant-tools.keyword#make-child)
 
 ## License
 
