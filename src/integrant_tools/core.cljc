@@ -72,9 +72,10 @@
    {:entity/thranduil [:race/elf]
     :entity/legolas   [:race/elf]
     :entity/aragorn   [:race/human]})
-
+  ```
   Is equivalent to calling:
 
+  ```clojure
   (derive :entity/thranduil :race/elf)
   (derive :entity/legolas   :race/elf)
   (derive :entity/aragorn   :race/human)
@@ -83,6 +84,24 @@
   (doseq [[tag parents] hierarchy
           parent parents]
     (derive tag parent)))
+
+(defn derive-composite
+  "Derives a the keys of the composite key `k` from left to right.
+
+  For exmaple:
+
+  ```clojure
+  (it/derive-composite [:race/human :entity/aragorn :aragorn/age])
+  ```
+
+  is equivalent to calling:
+
+  ```clojure
+  (derive :entity/aragorn :race/human)
+  (derive :aragorn/age :entity/aragorn)
+  ```"
+  [k]
+  (reduce #(do (derive %2 %1) %2) k))
 
 (defn underive-all
   "Underives all keys from `config` of their parents. This is useful if you've
