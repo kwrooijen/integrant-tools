@@ -45,11 +45,7 @@
   [key]
   (with-meta (ig/ref key) {:ref/child true}))
 
-(defn- meta-init-key [k opts]
-  (let [v (ig/init-key k opts)]
-    (if (meta-value? v)
-      (vary-meta v merge (meta opts))
-      v)))
+
 
 (def ^:private meta-ref?
   (every-pred ig/ref? meta))
@@ -208,6 +204,12 @@
    (ig/build config keys
              (partial reduce-init-fns init-fns)
              #'ig/assert-pre-init-spec)))
+
+(defmethod init-fn :it/meta-init [_ k opts]
+  (let [v (ig/init-key k opts)]
+    (if (meta-value? v)
+      (vary-meta v merge (meta opts))
+      v)))
 
 (defmethod init-fn :ig/init [_ k opts]
   (ig/init-key k opts))
