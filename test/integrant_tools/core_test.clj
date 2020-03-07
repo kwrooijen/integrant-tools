@@ -85,12 +85,12 @@
     (underive :entity/age :it/const)))
 
 (deftest derive-hierarchy-test
-  (testing "Use derive-hierarchy! to specify which keys should derive from const"
-    (it/derive-hierarchy! config-hierarchy-1)
+  (testing "Use derive-hierarchy to specify which keys should derive from const"
+    (it/derive-hierarchy config-hierarchy-1)
     (is (= 2931 (-> config-1 (ig/init [:entity/legolas]) :entity/legolas :age))))
 
-  (testing "Use derive-hierarchy! to create groups"
-    (it/derive-hierarchy! config-hierarchy-2)
+  (testing "Use derive-hierarchy to create groups"
+    (it/derive-hierarchy config-hierarchy-2)
     (is (some? (-> config-1 (ig/init [:race/elf]) :entity/legolas)))
     (is (some? (-> config-1 (ig/init [:race/elf]) :entity/thranduil)))
     (is (nil? (-> config-1 (ig/init [:race/elf]) :entity/aragorn)))

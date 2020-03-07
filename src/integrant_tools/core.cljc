@@ -152,6 +152,6 @@
 (defn select-keys
   "Select all keys from `config` that are a dependency if `keys`"
   [config keys]
-  (->> (ig/dependent-keys config keys)
+  (->> (#'ig/dependent-keys config keys)
        #?(:cljs (cljs.core/select-keys config)
           :clj  (clojure.core/select-keys config))))
