@@ -1,6 +1,7 @@
 (ns integrant-tools.core
   (:refer-clojure :exclude [select-keys])
   (:require
+   [clojure.walk :as walk]
    [integrant.core :as ig]
    [integrant-tools.keyword :as it.keyword]))
 
@@ -22,11 +23,48 @@
   #?(:clj  (instance? clojure.lang.IObj v)
      :cljs (satisfies? IMeta v)))
 
+(defmulti prep-meta-ref
+  "TODO"
+  (comp first keys meta))
+
+(defmulti prep-meta-config
+  "TODO"
+  (fn [_config ref]
+    (-> ref meta keys first)))
+
+(defmulti prep-fn
+  "TODO"
+  identity)
+
+(defmulti init-fn
+  "TODO"
+  identity)
+
+(defn child-ref
+  "TODO"
+  [key]
+  (with-meta (ig/ref key) {:ref/child true}))
+
 (defn- meta-init-key [k opts]
   (let [v (ig/init-key k opts)]
     (if (meta-value? v)
       (vary-meta v merge (meta opts))
       v)))
+
+(def ^:private meta-ref?
+  (every-pred ig/ref? meta))
+
+(def ^:private modify-meta-refs
+  (partial walk/postwalk
+           #(cond-> % (meta-ref? %) prep-meta-ref)))
+
+(defn- reduce-meta-config [config]
+  (reduce prep-meta-config
+          config
+          (#'ig/depth-search meta-ref? config)))
+
+(defn- reduce-init-fns [init-fns k opts]
+  (reduce #(init-fn %2 k %1) opts init-fns))
 
 (def ^{:doc "Useful Integrant readers
 
@@ -50,7 +88,8 @@
 ```"}
   readers
   {'it/regex re-pattern
-   'it/str (partial apply str)})
+   'it/str (partial apply str)
+   'it/child-ref child-ref})
 
 (defmethod ig/init-key :it/const [_ opts] opts)
 
@@ -139,19 +178,44 @@
        (first)
        (last)))
 
-(defn meta-init
-  "Same as ig/init, but any metadata in a key's `opts` are merged into the
-  resulting value after initialization. This is useful if your init-key returns
-  a function, but you want to add extra context to it."
-  ([config]
-   (meta-init config (keys config)))
-  ([config keys]
-   {:pre [(map? config)]}
-   (ig/build config keys meta-init-key #'ig/assert-pre-init-spec)))
-
 (defn select-keys
   "Select all keys from `config` that are a dependency if `keys`"
   [config keys]
   (->> (#'ig/dependent-keys config keys)
        #?(:cljs (cljs.core/select-keys config)
           :clj  (clojure.core/select-keys config))))
+
+(defn prep
+  "TODO"
+  ([config prep-fns] (prep config prep-fns (keys config)))
+  ([config prep-fns keys]
+   (reduce #(prep-fn %2 %1) (select-keys config keys) prep-fns)))
+
+(defmethod prep-fn :it/prep-meta [_ config]
+   (-> config
+       (modify-meta-refs)
+       (reduce-meta-config)))
+
+(defmethod prep-fn :ig/prep [_ config]
+  (ig/prep config))
+
+(defn init
+  "TODO"
+  ([config init-fns]
+   (init config init-fns (keys config)))
+  ([config init-fns keys]
+   {:pre [(map? config)]}
+   (ig/build config keys
+             (partial reduce-init-fns init-fns)
+             #'ig/assert-pre-init-spec)))
+
+(defmethod init-fn :ig/init [_ k opts]
+  (ig/init-key k opts))
+
+(defmethod prep-meta-ref :ref/child [ref]
+  (update ref :key it.keyword/make-child))
+
+(defmethod prep-meta-config :ref/child [config {:keys [key]}]
+  (let [[[child-key child-value]] (ig/find-derived config (it.keyword/parent key))
+        child-key (conj child-key key)]
+    (assoc config child-key child-value)))
