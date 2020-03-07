@@ -42,6 +42,26 @@
   [tag1 tag2]
   ((children tag2) tag1))
 
+(defn parent
+  "Return the first parent of `tag`."
+  [tag]
+  (first (parents tag)))
+
+(defn ancestor
+  "Return the first ancestor of `tag`."
+  [tag]
+  (first (ancestor tag)))
+
+(defn child
+  "Return the first child of `tag`."
+  [tag]
+  (first (children tag)))
+
+(defn descendant
+  "Return the first descendant of `tag`."
+  [tag]
+  (first (descendants tag)))
+
 (defn underive-ancestors
   "Underive all `tag` of all its ancestors."
   [tag]
