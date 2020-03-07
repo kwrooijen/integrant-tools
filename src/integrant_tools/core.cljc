@@ -1,6 +1,8 @@
 (ns integrant-tools.core
+  (:refer-clojure :exclude [select-keys])
   (:require
-   [integrant.core :as ig]))
+   [integrant.core :as ig]
+   [integrant-tools.keyword :as it.keyword]))
 
 (defn- ->coll [k]
   (if (coll? k) k [k]))
@@ -146,3 +148,10 @@
   ([config keys]
    {:pre [(map? config)]}
    (ig/build config keys meta-init-key #'ig/assert-pre-init-spec)))
+
+(defn select-keys
+  "Select all keys from `config` that are a dependency if `keys`"
+  [config keys]
+  (->> (ig/dependent-keys config keys)
+       #?(:cljs (cljs.core/select-keys config)
+          :clj  (clojure.core/select-keys config))))
