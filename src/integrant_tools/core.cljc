@@ -122,7 +122,7 @@
   "Return the first key in `config` that is derived from `k`."
   [config k]
   (->> (ig/find-derived config k)
-       (mapv first)))
+       (ffirst)))
 
 (defn find-derived-values
   "Return all values of keys in `config` that are derived from `k`."
