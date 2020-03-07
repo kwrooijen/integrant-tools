@@ -1,4 +1,4 @@
-(defproject integrant-tools "0.3.1"
+(defproject integrant-tools "0.3.2"
   :description "A library with helper functions, reader tags, and init-keys for Integrant"
   :url "https://github.com/kwrooijen/integrant-tools"
   :license {:name "Eclipse Public License"
