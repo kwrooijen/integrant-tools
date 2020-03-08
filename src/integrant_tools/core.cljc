@@ -38,14 +38,12 @@
 
 (defmulti init-fn
   "TODO"
-  identity)
+  #'ig/normalize-key)
 
 (defn child-ref
   "TODO"
   [key]
   (with-meta (ig/ref key) {:ref/child true}))
-
-
 
 (def ^:private meta-ref?
   (every-pred ig/ref? meta))
