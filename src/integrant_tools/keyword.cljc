@@ -11,17 +11,23 @@
 (defn ancestor?
   "Return `true` if `tag1` is an ancestor of `tag2`, otherwise return false."
   [tag1 tag2]
-  ((ancestors tag2) tag1))
+  (if-let [tags (ancestors tag2)]
+    (tags tag1)
+    false))
 
 (defn descendant?
   "Return `true` if `tag1` is an descendant of `tag2`, otherwise return false."
   [tag1 tag2]
-  ((descendants tag2) tag1))
+  (if-let [tags (descendants tag2)]
+    (tags tag1)
+    false))
 
 (defn parent?
   "Return `true` if `tag1` is an parent of `tag2`, otherwise return false."
   [tag1 tag2]
-  ((parents tag2) tag1))
+  (if-let [tags (parents tag2)]
+    (tags tag1)
+    false))
 
 (defn children
   "Returns the immediate children of `tag`, either via a Java(Script) type
@@ -40,7 +46,9 @@
 (defn child?
   "Return `true` of `tag1` is an child of `tag2`, otherwise return false."
   [tag1 tag2]
-  ((children tag2) tag1))
+  (if-let [tags (children tag2)]
+    (tags tag1)
+    false))
 
 (defn parent
   "Return the first parent of `tag`."
