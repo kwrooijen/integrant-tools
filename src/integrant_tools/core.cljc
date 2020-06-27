@@ -28,6 +28,12 @@
       (vary-meta v merge (meta opts))
       v)))
 
+(defn- meta-opts-init-key [k opts]
+  (let [v (ig/init-key k opts)]
+    (if (meta-value? v)
+      (vary-meta v merge opts)
+      v)))
+
 (def ^{:doc "Useful Integrant readers
 
 ## `it/regex`
@@ -148,6 +154,16 @@
   ([config keys]
    {:pre [(map? config)]}
    (ig/build config keys meta-init-key #'ig/assert-pre-init-spec)))
+
+(defn meta-opts-init
+  "Same as ig/init, but `opts` is merged into the resulting value's
+  metadata after initialization. This is useful if your init-key
+  returns a function, but you want to add extra context to it."
+  ([config]
+   (meta-opts-init config (keys config)))
+  ([config keys]
+   {:pre [(map? config)]}
+   (ig/build config keys meta-opts-init-key #'ig/assert-pre-init-spec)))
 
 (defn select-keys
   "Select all keys from `config` that are a dependency if `keys`"

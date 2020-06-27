@@ -49,6 +49,18 @@
    ^{:type :reagent}
    {:return/value 1}})
 
+(def config-3
+  {[:component/html :component/with-meta]
+   {:return/value [:div "Html!"]
+    :type :reagent}
+
+   [:component/html :component/without-meta]
+   {:return/value [:div "Html!"]}
+
+   [:component/number :component/non-IMeta]
+   {:return/value 1
+    :type :reagent}})
+
 (def config-hierarchy-1
   {:entity/name [:it/const]
    :entity/age [:it/const]})
@@ -111,3 +123,16 @@
   (testing "Ignore metadata if a non IMeta value is returned"
     (is (nil? (-> config-2 (it/meta-init) (get [:component/number :component/non-IMeta]) meta)))
     (is (integer? (-> config-2 (it/meta-init) (get [:component/number :component/non-IMeta]))))))
+
+(deftest meta-opts-init-test
+  (testing "Check that the output inherits metadata"
+    (is (= :reagent (-> config-3 (it/meta-opts-init) (get [:component/html :component/with-meta]) meta :type)))
+    (is (fn? (-> config-3 (it/meta-init) (get [:component/html :component/with-meta])))))
+
+  (testing "Check that the output doesn't need metadata"
+    (is (nil? (-> config-3 (it/meta-init) (get [:component/html :component/without-meta]) meta)))
+    (is (fn? (-> config-3 (it/meta-init) (get [:component/html :component/without-meta])))))
+
+  (testing "Ignore metadata if a non IMeta value is returned"
+    (is (nil? (-> config-3 (it/meta-init) (get [:component/number :component/non-IMeta]) meta)))
+    (is (integer? (-> config-3 (it/meta-init) (get [:component/number :component/non-IMeta]))))))

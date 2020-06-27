@@ -1,8 +1,7 @@
-(defproject integrant-tools "0.3.3"
+(defproject kwrooijen/integrant-tools "0.3.4"
   :description "A library with helper functions, reader tags, and init-keys for Integrant"
   :url "https://github.com/kwrooijen/integrant-tools"
-  :license {:name "Eclipse Public License"
-            :url  "http://www.eclipse.org/legal/epl-v10.html"}
+  :license {:name "MIT"}
   :dependencies [[integrant "0.8.0"]]
   :plugins [[lein-cloverage "1.0.13"]
             [lein-shell "0.5.0"]
