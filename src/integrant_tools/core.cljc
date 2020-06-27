@@ -24,13 +24,15 @@
 
 (defn- meta-init-key [k opts]
   (let [v (ig/init-key k opts)]
-    (if (meta-value? v)
+    (if (and (map? opts)
+             (meta-value? v))
       (vary-meta v merge (meta opts))
       v)))
 
 (defn- meta-opts-init-key [k opts]
   (let [v (ig/init-key k opts)]
-    (if (meta-value? v)
+    (if (and (map? opts)
+             (meta-value? v))
       (vary-meta v merge opts)
       v)))
 

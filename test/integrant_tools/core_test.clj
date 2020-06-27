@@ -17,6 +17,9 @@
 (defmethod ig/init-key :component/number [_ opts]
   (:return/value opts))
 
+(defmethod ig/init-key :component/symbol [_ opts]
+  {})
+
 (def config-1
   {:entity/legolas
    {:name (ig/ref :legolas/name)
@@ -59,7 +62,10 @@
 
    [:component/number :component/non-IMeta]
    {:return/value 1
-    :type :reagent}})
+    :type :reagent}
+
+   :component/symbol
+   'test})
 
 (def config-hierarchy-1
   {:entity/name [:it/const]
