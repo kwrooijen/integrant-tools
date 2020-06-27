@@ -1,4 +1,4 @@
-(defproject kwrooijen/integrant-tools "0.3.5"
+(defproject kwrooijen/integrant-tools "0.3.6"
   :description "A library with helper functions, reader tags, and init-keys for Integrant"
   :url "https://github.com/kwrooijen/integrant-tools"
   :license {:name "MIT"}

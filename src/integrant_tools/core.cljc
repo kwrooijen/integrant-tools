@@ -22,15 +22,22 @@
   #?(:clj  (instance? clojure.lang.IObj v)
      :cljs (satisfies? IMeta v)))
 
-(defn- meta-init-key [k opts]
+(defn meta-init-key [k opts]
   (let [v (ig/init-key k opts)]
     (if (and (map? opts)
              (meta-value? v))
       (vary-meta v merge (meta opts))
       v)))
 
-(defn- meta-opts-init-key [k opts]
+(defn meta-opts-init-key [k opts]
   (let [v (ig/init-key k opts)]
+    (if (and (map? opts)
+             (meta-value? v))
+      (vary-meta v merge opts)
+      v)))
+
+(defn meta-opts-resume-key [k opts old-value old-impl]
+  (let [v (ig/resume-key k opts old-value old-impl)]
     (if (and (map? opts)
              (meta-value? v))
       (vary-meta v merge opts)
@@ -166,6 +173,23 @@
   ([config keys]
    {:pre [(map? config)]}
    (ig/build config keys meta-opts-init-key #'ig/assert-pre-init-spec)))
+
+(defn meta-opts-resume
+  "Same as ig/resume, but `opts` is merged into the resulting value's
+  metadata after initialization. This is useful if your resume-key
+  returns a function, but you want to add extra context to it."
+  ([config system]
+   (meta-opts-resume config system (keys config)))
+  ([config system keys]
+   {:pre [(map? config) (map? system) (some-> system meta :integrant.core/origin)]}
+   (#'ig/halt-missing-keys! config system keys)
+   (ig/build config keys
+          (fn [k v]
+            (if (contains? system k)
+              (meta-opts-resume-key k v (-> system meta :integrant.core/build (get k)) (system k))
+              (meta-opts-init-key k v)))
+          #'ig/assert-pre-init-spec
+          ig/resolve-key)))
 
 (defn select-keys
   "Select all keys from `config` that are a dependency if `keys`"
