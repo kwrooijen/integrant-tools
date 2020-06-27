@@ -51,4 +51,4 @@ Released under the [MIT License] by [Kevin William van Rooijen].
 
 [Kevin William van Rooijen]: https://twitter.com/kwrooijen
 
-[MIT License]: https://github.com/kwrooijen/integrnat-tools/blob/master/LICENSE
+[MIT License]: https://github.com/kwrooijen/integrant-tools/blob/master/LICENSE
