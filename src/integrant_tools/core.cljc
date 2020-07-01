@@ -162,7 +162,7 @@
    (meta-init config (keys config)))
   ([config keys]
    {:pre [(map? config)]}
-   (ig/build config keys meta-init-key #'ig/assert-pre-init-spec)))
+   (ig/build config keys meta-init-key #'ig/assert-pre-init-spec ig/resolve-key)))
 
 (defn meta-opts-init
   "Same as ig/init, but `opts` is merged into the resulting value's
@@ -172,7 +172,7 @@
    (meta-opts-init config (keys config)))
   ([config keys]
    {:pre [(map? config)]}
-   (ig/build config keys meta-opts-init-key #'ig/assert-pre-init-spec)))
+   (ig/build config keys meta-opts-init-key #'ig/assert-pre-init-spec ig/resolve-key)))
 
 (defn meta-opts-resume
   "Same as ig/resume, but `opts` is merged into the resulting value's
