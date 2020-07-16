@@ -1,4 +1,4 @@
-(defproject kwrooijen/integrant-tools "0.3.7"
+(defproject kwrooijen/integrant-tools "0.3.8"
   :description "A library with helper functions, reader tags, and init-keys for Integrant"
   :url "https://github.com/kwrooijen/integrant-tools"
   :license {:name "MIT"}
@@ -7,7 +7,8 @@
             [lein-shell "0.5.0"]
             [lein-ancient "0.6.15"]
             [lein-changelog "0.3.2"]]
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.0"]]}}
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.0"]]}
+             :provided {:dependencies [[integrant/repl "0.3.1"]]}}
   :deploy-repositories [["clojars" {:url "https://clojars.org/repo"
                                     :username :env/clojars_user
                                     :password :env/clojars_pass

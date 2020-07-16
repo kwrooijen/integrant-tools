@@ -1,9 +1,10 @@
 (ns integrant-tools.repl
   (:require
-   [integrant.repl.state :as state]
    [clojure.tools.namespace.repl :as repl]
+   [integrant-tools.core :as it]
    [integrant.core :as ig]
-   [integrant-tools.core :as it]))
+   [integrant.repl]
+   [integrant.repl.state :as state]))
 
 (defn- build-system [build wrap-ex]
   (try
