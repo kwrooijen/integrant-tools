@@ -20,8 +20,10 @@
        (str "#" tag " ")
        (symbol)))
 
-(defn- reader-map? [{:reader/keys [tag value]}]
-  (and tag value))
+(defn- reader-map? [input]
+  (and (map? input)
+       (:reader/tag input)
+       (:reader/value input)))
 
 (defn- parse-reader [v]
   (cond-> v
