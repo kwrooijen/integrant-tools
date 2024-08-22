@@ -161,7 +161,7 @@
    (meta-init config (keys config)))
   ([config keys]
    {:pre [(map? config)]}
-   (ig/build config keys meta-init-key #'ig/assert-pre-init-spec ig/resolve-key)))
+   (ig/build config keys meta-init-key #'ig/wrapped-assert-key ig/resolve-key)))
 
 (defn meta-opts-init
   "Same as ig/init, but `opts` is merged into the resulting value's
@@ -171,7 +171,7 @@
    (meta-opts-init config (keys config)))
   ([config keys]
    {:pre [(map? config)]}
-   (ig/build config keys meta-opts-init-key #'ig/assert-pre-init-spec ig/resolve-key)))
+   (ig/build config keys meta-opts-init-key #'ig/wrapped-assert-key ig/resolve-key)))
 
 (defn meta-opts-resume
   "Same as ig/resume, but `opts` is merged into the resulting value's
@@ -187,7 +187,7 @@
             (if (contains? system k)
               (meta-opts-resume-key k v (-> system meta :integrant.core/build (get k)) (system k))
               (meta-opts-init-key k v)))
-          #'ig/assert-pre-init-spec
+          #'ig/wrapped-assert-key
           ig/resolve-key)))
 
 (defn select-keys
