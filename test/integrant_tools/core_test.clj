@@ -17,7 +17,7 @@
 (defmethod ig/init-key :component/number [_ opts]
   (:return/value opts))
 
-(defmethod ig/init-key :component/symbol [_ opts]
+(defmethod ig/init-key :component/symbol [_ _opts]
   {})
 
 (def config-1
