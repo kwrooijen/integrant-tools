@@ -3,9 +3,9 @@
   :url "https://github.com/kwrooijen/integrant-tools"
   :license {:name "MIT"}
   :dependencies [[integrant "0.10.0"]]
-  :plugins [[lein-cloverage "1.0.13"]
+  :plugins [[lein-cloverage "1.2.2"]
             [lein-shell "0.5.0"]
-            [lein-ancient "0.6.15"]
+            [lein-ancient "0.7.0"]
             [lein-changelog "0.3.2"]]
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.11.4"]]}
              :provided {:dependencies [[integrant/repl "0.3.3"]]}}
