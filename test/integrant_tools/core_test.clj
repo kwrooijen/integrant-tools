@@ -1,5 +1,5 @@
 (ns integrant-tools.core-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest testing is]]
             [integrant-tools.core :as it]
             [integrant.core :as ig]
             [clojure.edn :as edn]))

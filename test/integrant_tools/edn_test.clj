@@ -1,5 +1,5 @@
 (ns integrant-tools.edn-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest testing is]]
             [integrant-tools.edn :as it.edn]))
 
 (def config-str
