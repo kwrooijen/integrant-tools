@@ -1,8 +1,7 @@
 (ns integrant-tools.core
   (:refer-clojure :exclude [select-keys])
   (:require
-   [integrant.core :as ig]
-   [integrant-tools.keyword :as it.keyword]))
+   [integrant.core :as ig]))
 
 (defn- ->coll [k]
   (if (coll? k) k [k]))
