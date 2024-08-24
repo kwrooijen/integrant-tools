@@ -10,7 +10,7 @@
   (try
     (build)
     (catch clojure.lang.ExceptionInfo ex
-      (if-let [system (:system (ex-data ex))]
+      (when-let [system (:system (ex-data ex))]
         (try
           (ig/halt! system)
           (catch clojure.lang.ExceptionInfo halt-ex
